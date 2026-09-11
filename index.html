@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investigation — Classified</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 50% 30%, #202020 0%, #101010 45%, #050505 100%);
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      padding: 40px 20px;
+    }
+
+    /* Subtle cinematic light */
+    .light {
+      position: absolute;
+      width: 650px;
+      height: 650px;
+      background: radial-gradient(
+        ellipse,
+        rgba(255,255,255,0.07) 0%,
+        rgba(255,255,255,0.025) 35%,
+        transparent 70%
+      );
+      top: -170px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      width: min(760px, 100%);
+      text-align: center;
+      margin-bottom: 70px;
+    }
+
+    .silhouette {
+      width: 175px;
+      height: 235px;
+      position: relative;
+      margin: 0 auto 42px;
+      filter: drop-shadow(0 20px 30px rgba(0,0,0,.8));
+    }
+
+    /* Head */
+    .head {
+      position: absolute;
+      width: 76px;
+      height: 90px;
+      background: #000;
+      border-radius: 50%;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Body / shoulders */
+    .body {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      background: #000;
+      border-radius: 75px 75px 12px 12px;
+      left: 50%;
+      bottom: 0;
+      transform: translateX(-50%);
+    }
+
+    /* Suit opening */
+    .body::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: #151515;
+      transform: translateX(-50%);
+    }
+
+    .body::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 3px;
+      width: 48px;
+      height: 48px;
+      border-left: 2px solid #151515;
+      border-right: 2px solid #151515;
+      transform: translateX(-50%);
+    }
+
+    .eyebrow {
+      color: #a9a9a9;
+      font-size: 12px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 60px);
+      line-height: 1.05;
+      letter-spacing: -1px;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+
+    h1 span {
+      color: #e12525;
+    }
+
+    .message {
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.8;
+      color: #d0d0d0;
+      max-width: 690px;
+      margin: 0 auto;
+    }
+
+    .message .name {
+      color: white;
+      font-weight: 700;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 42px;
+      padding: 18px 45px;
+      background: #b71919;
+      border: 1px solid #e02b2b;
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: all .25s ease;
+      box-shadow: 0 8px 25px rgba(180, 20, 20, .18);
+    }
+
+    .button:hover {
+      background: #d02121;
+      transform: translateY(-3px);
+      box-shadow: 0 13px 35px rgba(180, 20, 20, .3);
+    }
+
+    .classified {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #555;
+      font-size: 10px;
+      letter-spacing: 3px;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 600px) {
+      .silhouette {
+        transform: scale(.82);
+        margin-bottom: 18px;
+      }
+
+      .message {
+        font-size: 15px;
+        line-height: 1.7;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="page">
+    <div class="light"></div>
+
+    <section class="content">
+
+      <div class="silhouette" aria-hidden="true">
+        <div class="head"></div>
+        <div class="body"></div>
+      </div>
+
+      <div class="eyebrow">Confidential Investigation</div>
+
+      <h1>Hello, we need your <span>HELP!</span></h1>
+
+      <p class="message">
+        You where called here to help us on a case since u are the best
+        investigator that we have we think you can help us.
+        If u want to know more detail about the case talk to our
+        <span class="name">Chief Inspector Charles.</span>
+      </p>
+
+      <a class="button" href="chief.html">
+        Talk to Chief Inspector Charles
+      </a>
+
+    </section>
+
+    <div class="classified">AUTHORIZED PERSONNEL ONLY</div>
+  </main>
+
+</body>
+</html>
