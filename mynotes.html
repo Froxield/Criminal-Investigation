@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>My Notes — Classified</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 50% 20%,
+          #202020 0%,
+          #101010 45%,
+          #050505 100%
+        );
+
+      color: white;
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      overflow-x: hidden;
+    }
+
+
+    /* =========================
+       PAGE
+    ========================= */
+
+    .page {
+      min-height: 100vh;
+
+      position: relative;
+
+      padding: 45px 20px 100px;
+
+      display: flex;
+
+      justify-content: center;
+    }
+
+
+    /* =========================
+       BACKGROUND LIGHT
+    ========================= */
+
+    .light {
+      position: fixed;
+
+      width: 750px;
+      height: 750px;
+
+      top: -300px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      background:
+        radial-gradient(
+          ellipse,
+          rgba(255,255,255,0.06) 0%,
+          rgba(255,255,255,0.02) 35%,
+          transparent 70%
+        );
+
+      pointer-events: none;
+    }
+
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content {
+      position: relative;
+
+      z-index: 2;
+
+      width: min(950px, 100%);
+    }
+
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header {
+      text-align: center;
+
+      margin-bottom: 35px;
+    }
+
+
+    .status {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      color: #e12525;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+    }
+
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+
+      background: #e12525;
+
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 12px rgba(225,37,37,.8);
+
+      animation: pulse 1.5s infinite;
+    }
+
+
+    @keyframes pulse {
+
+      0% {
+        opacity: 1;
+        box-shadow:
+          0 0 12px rgba(225,37,37,.8);
+      }
+
+      50% {
+        opacity: .4;
+        box-shadow:
+          0 0 4px rgba(225,37,37,.3);
+      }
+
+      100% {
+        opacity: 1;
+        box-shadow:
+          0 0 12px rgba(225,37,37,.8);
+      }
+
+    }
+
+
+    h1 {
+      margin-top: 18px;
+
+      font-size: clamp(38px, 7vw, 65px);
+
+      line-height: 1;
+
+      letter-spacing: -2px;
+
+      font-weight: 700;
+    }
+
+
+    h1 span {
+      color: #e12525;
+    }
+
+
+    .subtitle {
+      margin-top: 18px;
+
+      color: #777;
+
+      font-size: 12px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+    }
+
+
+    /* =========================
+       DIVIDER
+    ========================= */
+
+    .divider {
+      width: 100%;
+
+      height: 1px;
+
+      margin: 35px 0 35px;
+
+      background:
+        linear-gradient(
+          to right,
+          transparent,
+          #b71919,
+          #444,
+          transparent
+        );
+    }
+
+
+    /* =========================
+       NOTES SECTION
+    ========================= */
+
+    .notes-section {
+      position: relative;
+
+      background: rgba(12,12,12,.95);
+
+      border: 1px solid #292929;
+
+      padding: 35px;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.6);
+
+      overflow: hidden;
+    }
+
+
+    .notes-section::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      width: 3px;
+
+      background: #b71919;
+    }
+
+
+    .section-number {
+      color: #555;
+
+      font-size: 11px;
+
+      letter-spacing: 4px;
+
+      margin-bottom: 12px;
+
+      text-transform: uppercase;
+    }
+
+
+    .notes-title {
+      color: white;
+
+      font-size: clamp(28px, 5vw, 42px);
+
+      line-height: 1.1;
+
+      letter-spacing: -1px;
+
+      margin-bottom: 12px;
+    }
+
+
+    .notes-description {
+      color: #777;
+
+      font-size: 14px;
+
+      line-height: 1.7;
+
+      margin-bottom: 28px;
+
+      max-width: 700px;
+    }
+
+
+    /* =========================
+       NOTE TITLE
+    ========================= */
+
+    .input-label {
+      display: block;
+
+      color: #777;
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      margin-bottom: 10px;
+    }
+
+
+    .note-name {
+      width: 100%;
+
+      height: 52px;
+
+      padding: 0 16px;
+
+      background: #090909;
+
+      border: 1px solid #303030;
+
+      color: white;
+
+      outline: none;
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      font-size: 14px;
+
+      transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+    }
+
+
+    .note-name:focus {
+      border-color: #b71919;
+
+      box-shadow:
+        0 0 0 1px rgba(183,25,25,.2);
+    }
+
+
+    .note-name::placeholder {
+      color: #555;
+    }
+
+
+    /* =========================
+       TEXT AREA
+    ========================= */
+
+    .notes-input {
+      width: 100%;
+
+      min-height: 400px;
+
+      resize: vertical;
+
+      padding: 20px;
+
+      background: #090909;
+
+      border: 1px solid #303030;
+
+      color: #ddd;
+
+      outline: none;
+
+      font-family: Arial, Helvetica, sans-serif;
+
+      font-size: 15px;
+
+      line-height: 1.8;
+
+      transition:
+        border-color .25s ease,
+        box-shadow .25s ease;
+    }
+
+
+    .notes-input:focus {
+      border-color: #b71919;
+
+      box-shadow:
+        0 0 0 1px rgba(183,25,25,.2);
+    }
+
+
+    .notes-input::placeholder {
+      color: #4d4d4d;
+    }
+
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .actions {
+      display: flex;
+
+      align-items: center;
+
+      gap: 12px;
+
+      margin-top: 20px;
+    }
+
+
+    .button {
+      display: inline-block;
+
+      padding: 16px 28px;
+
+      border: 1px solid #e02b2b;
+
+      background: #b71919;
+
+      color: white;
+
+      text-decoration: none;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      transition:
+        background .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+
+    .button:hover {
+      background: #d02121;
+
+      transform: translateY(-2px);
+
+      box-shadow:
+        0 10px 30px rgba(183,25,25,.3);
+    }
+
+
+    .button.secondary {
+      background: transparent;
+
+      border-color: #444;
+
+      color: #999;
+    }
+
+
+    .button.secondary:hover {
+      background: #181818;
+
+      border-color: #666;
+
+      color: white;
+
+      box-shadow: none;
+    }
+
+
+    /* =========================
+       SAVED MESSAGE
+    ========================= */
+
+    .saved-message {
+      margin-top: 15px;
+
+      color: #777;
+
+      font-size: 11px;
+
+      letter-spacing: 1px;
+
+      opacity: 0;
+
+      transition: opacity .3s ease;
+    }
+
+
+    .saved-message.show {
+      opacity: 1;
+
+      color: #b71919;
+    }
+
+
+    /* =========================
+       SECURITY MESSAGE
+    ========================= */
+
+    .security {
+      margin-top: 25px;
+
+      padding: 17px 20px;
+
+      border: 1px solid #292929;
+
+      background: rgba(8,8,8,.7);
+
+      color: #555;
+
+      font-size: 10px;
+
+      line-height: 1.7;
+
+      letter-spacing: .5px;
+    }
+
+
+    .security strong {
+      color: #b71919;
+
+      letter-spacing: 2px;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .classified {
+      position: fixed;
+
+      z-index: 5;
+
+      bottom: 18px;
+
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      color: #555;
+
+      font-size: 10px;
+
+      letter-spacing: 3px;
+
+      white-space: nowrap;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .page {
+        padding: 30px 15px 80px;
+      }
+
+
+      .notes-section {
+        padding: 25px;
+      }
+
+
+      .notes-input {
+        min-height: 350px;
+      }
+
+
+      .actions {
+        flex-direction: column;
+
+        align-items: stretch;
+      }
+
+
+      .button {
+        width: 100%;
+
+        text-align: center;
+      }
+
+
+      .classified {
+        font-size: 8px;
+
+        letter-spacing: 2px;
+      }
+
+    }
+
+  </style>
+</head>
+
+
+<body>
+
+  <main class="page">
+
+    <div class="light"></div>
+
+
+    <section class="content">
+
+
+      <!-- HEADER -->
+
+      <header class="header">
+
+        <div class="status">
+
+          <span class="status-dot"></span>
+
+          Private Investigation Notes
+
+        </div>
+
+
+        <h1>
+          MY <span>NOTES</span>
+        </h1>
+
+
+        <div class="subtitle">
+          Confidential Investigator Workspace
+        </div>
+
+      </header>
+
+
+      <div class="divider"></div>
+
+
+      <!-- NOTES -->
+
+      <section class="notes-section">
+
+
+        <div class="section-number">
+          03 / Personal Notes
+        </div>
+
+
+        <h2 class="notes-title">
+          INVESTIGATION NOTES
+        </h2>
+
+
+        <p class="notes-description">
+          Write down any information, clues, theories or
+          details you discover during your investigation.
+          These notes are private to you.
+        </p>
+
+
+        <!-- NOTE TITLE -->
+
+        <label class="input-label" for="noteName">
+          Note Title
+        </label>
+
+
+        <input
+          type="text"
+          id="noteName"
+          class="note-name"
+          placeholder="Example: Suspicious Activity"
+          autocomplete="off"
+        >
+
+
+        <br><br>
+
+
+        <!-- NOTE CONTENT -->
+
+        <label class="input-label" for="notes">
+          Your Information
+        </label>
+
+
+        <textarea
+          id="notes"
+          class="notes-input"
+          placeholder="Write your investigation notes here..."
+        ></textarea>
+
+
+        <!-- BUTTONS -->
+
+        <div class="actions">
+
+          <button
+            class="button"
+            id="saveButton"
+            type="button"
+          >
+            Save Notes
+          </button>
+
+
+          <button
+            class="button secondary"
+            id="clearButton"
+            type="button"
+          >
+            Clear
+          </button>
+
+
+          <a
+            href="office.html"
+            class="button secondary"
+          >
+            Back to Office
+          </a>
+
+        </div>
+
+
+        <div
+          class="saved-message"
+          id="savedMessage"
+        >
+          NOTES SAVED SUCCESSFULLY
+        </div>
+
+
+        <!-- SECURITY -->
+
+        <div class="security">
+
+          <strong>PRIVATE:</strong>
+
+          Your notes are saved locally in this browser
+          and are not displayed on the investigation
+          office page or to other users.
+
+        </div>
+
+
+      </section>
+
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <div class="classified">
+      AUTHORIZED PERSONNEL ONLY • PRIVATE FILE
+    </div>
+
+
+  </main>
+
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================= -->
+
+  <script>
+
+    const noteName =
+      document.getElementById("noteName");
+
+    const notes =
+      document.getElementById("notes");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
+    const clearButton =
+      document.getElementById("clearButton");
+
+    const savedMessage =
+      document.getElementById("savedMessage");
+
+
+    /* =========================
+       LOAD SAVED NOTES
+    ========================= */
+
+    const savedTitle =
+      localStorage.getItem("investigationNoteTitle");
+
+    const savedNotes =
+      localStorage.getItem("investigationNotes");
+
+
+    if (savedTitle !== null) {
+
+      noteName.value = savedTitle;
+
+    }
+
+
+    if (savedNotes !== null) {
+
+      notes.value = savedNotes;
+
+    }
+
+
+    /* =========================
+       SAVE NOTES
+    ========================= */
+
+    saveButton.addEventListener("click", function() {
+
+      localStorage.setItem(
+        "investigationNoteTitle",
+        noteName.value
+      );
+
+
+      localStorage.setItem(
+        "investigationNotes",
+        notes.value
+      );
+
+
+      savedMessage.classList.add("show");
+
+
+      setTimeout(function() {
+
+        savedMessage.classList.remove("show");
+
+      }, 2500);
+
+    });
+
+
+    /* =========================
+       CLEAR NOTES
+    ========================= */
+
+    clearButton.addEventListener("click", function() {
+
+      const confirmClear =
+        confirm(
+          "Are you sure you want to delete your notes?"
+        );
+
+
+      if (!confirmClear) {
+        return;
+      }
+
+
+      noteName.value = "";
+
+      notes.value = "";
+
+
+      localStorage.removeItem(
+        "investigationNoteTitle"
+      );
+
+
+      localStorage.removeItem(
+        "investigationNotes"
+      );
+
+
+      savedMessage.classList.remove("show");
+
+    });
+
+  </script>
+
+</body>
+</html>

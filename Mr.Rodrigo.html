@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Witness — Mr. Rodrigo</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 50% 25%,
+      #202020 0%,
+      #101010 45%,
+      #050505 100%
+    );
+
+  color: white;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  overflow: hidden;
+}
+
+.page {
+  min-height: 100vh;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 40px 60px;
+}
+
+.light {
+  position: absolute;
+
+  width: 750px;
+  height: 750px;
+
+  top: -300px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  background:
+    radial-gradient(
+      ellipse,
+      rgba(255,255,255,0.06) 0%,
+      rgba(255,255,255,0.02) 35%,
+      transparent 70%
+    );
+
+  pointer-events: none;
+}
+
+.main-area {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(1100px, 100%);
+
+  display: grid;
+
+  grid-template-columns:
+    280px
+    minmax(260px, 1fr)
+    280px;
+
+  gap: 35px;
+
+  align-items: center;
+}
+
+.person {
+  width: 280px;
+  text-align: center;
+}
+
+.image-box {
+  width: 280px;
+  height: 470px;
+
+  background: #090909;
+
+  border: 1px solid #303030;
+
+  position: relative;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 20px 60px rgba(0,0,0,.7);
+}
+
+.person.left .image-box::before {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 3px;
+
+  background: #b71919;
+
+  z-index: 2;
+}
+
+.person.right .image-box::before {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  width: 3px;
+
+  background: #ffffff;
+
+  z-index: 2;
+}
+
+.person-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+}
+
+.name {
+  margin-top: 22px;
+
+  color: white;
+
+  font-size: 17px;
+
+  font-weight: 700;
+
+  letter-spacing: 4px;
+
+  text-transform: uppercase;
+}
+
+.role {
+  margin-top: 8px;
+
+  color: #666;
+
+  font-size: 10px;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+}
+
+.chat-area {
+  width: 100%;
+
+  max-height: 470px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: flex-start;
+
+  overflow-y: auto;
+
+  padding: 5px;
+
+  scrollbar-width: thin;
+
+  scrollbar-color:
+    #444
+    transparent;
+}
+
+.chat-box {
+  width: 100%;
+
+  padding: 18px 20px;
+
+  background:
+    rgba(10,10,10,.96);
+
+  border-top:
+    1px solid #333;
+
+  border-bottom:
+    1px solid #333;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.55);
+
+  margin-bottom: 12px;
+
+  animation:
+    chatAppear .3s ease;
+}
+
+@keyframes chatAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+
+}
+
+.chat-box.investigator {
+  border-right:
+    3px solid #ffffff;
+
+  text-align: right;
+}
+
+.chat-box.rodrigo {
+  border-left:
+    3px solid #b71919;
+
+  text-align: left;
+}
+
+.chat-name {
+  color: #ffffff;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
+
+  margin-bottom: 10px;
+}
+
+.chat-box.rodrigo .chat-name {
+  color: #b71919;
+}
+
+.chat-text {
+  color: #d0d0d0;
+
+  font-size: 14px;
+
+  line-height: 1.65;
+}
+
+.next-button {
+  align-self: center;
+
+  margin:
+    5px 0 12px;
+
+  padding:
+    12px 35px;
+
+  background:
+    #b71919;
+
+  border:
+    1px solid #e02b2b;
+
+  color:
+    white;
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    3px;
+
+  text-transform:
+    uppercase;
+
+  cursor:
+    pointer;
+
+  transition:
+    all .25s ease;
+}
+
+.next-button:hover {
+  background:
+    #d02121;
+
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 8px 25px
+    rgba(183,25,25,.3);
+}
+
+.question-button {
+  width: 100%;
+
+  padding:
+    14px 18px;
+
+  margin-bottom:
+    8px;
+
+  background:
+    rgba(15,15,15,.96);
+
+  border:
+    1px solid #333;
+
+  border-left:
+    3px solid #ffffff;
+
+  color:
+    #ddd;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+  font-size:
+    12px;
+
+  line-height:
+    1.5;
+
+  text-align:
+    left;
+
+  cursor:
+    pointer;
+
+  transition:
+    all .25s ease;
+
+  animation:
+    chatAppear .3s ease;
+}
+
+.question-button:hover {
+  background:
+    #1c1c1c;
+
+  border-color:
+    #666;
+
+  color:
+    white;
+
+  transform:
+    translateX(3px);
+}
+
+.sub-question {
+  border-left:
+    3px solid #ffffff;
+
+  padding-left:
+    25px;
+
+  color:
+    #aaa;
+
+  background:
+    rgba(8,8,8,.96);
+}
+
+.sub-question:hover {
+  border-left-color:
+    #ffffff;
+
+  color:
+    white;
+}
+
+.reset-button {
+  position:
+    fixed;
+
+  left:
+    50%;
+
+  bottom:
+    65px;
+
+  transform:
+    translateX(-50%);
+
+  z-index:
+    50;
+
+  padding:
+    13px 24px;
+
+  background:
+    #181818;
+
+  border:
+    1px solid #555;
+
+  color:
+    #aaa;
+
+  font-size:
+    10px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    2px;
+
+  text-transform:
+    uppercase;
+
+  cursor:
+    pointer;
+
+  transition:
+    all .25s ease;
+}
+
+.reset-button:hover {
+  background:
+    #b71919;
+
+  border-color:
+    #e02b2b;
+
+  color:
+    white;
+
+  transform:
+    translateX(-50%)
+    translateY(-3px);
+}
+
+.office-button {
+  position:
+    fixed;
+
+  left:
+    25px;
+
+  bottom:
+    25px;
+
+  z-index:
+    50;
+
+  padding:
+    14px 24px;
+
+  background:
+    #b71919;
+
+  border:
+    1px solid #e02b2b;
+
+  color:
+    white;
+
+  text-decoration:
+    none;
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    2px;
+
+  text-transform:
+    uppercase;
+
+  transition:
+    all .25s ease;
+}
+
+.office-button:hover {
+  background:
+    #d02121;
+
+  transform:
+    translateY(-3px);
+}
+
+.notes-button {
+  position:
+    fixed;
+
+  right:
+    25px;
+
+  bottom:
+    25px;
+
+  z-index:
+    50;
+
+  padding:
+    14px 24px;
+
+  background:
+    #b71919;
+
+  border:
+    1px solid #e02b2b;
+
+  color:
+    white;
+
+  text-decoration:
+    none;
+
+  font-size:
+    11px;
+
+  font-weight:
+    700;
+
+  letter-spacing:
+    2px;
+
+  text-transform:
+    uppercase;
+
+  transition:
+    all .25s ease;
+}
+
+.notes-button:hover {
+  background:
+    #d02121;
+
+  transform:
+    translateY(-3px);
+}
+
+.classified {
+  position:
+    fixed;
+
+  bottom:
+    20px;
+
+  left:
+    50%;
+
+  transform:
+    translateX(-50%);
+
+  color:
+    #555;
+
+  font-size:
+    10px;
+
+  letter-spacing:
+    3px;
+
+  white-space:
+    nowrap;
+}
+
+@media (max-width: 700px) {
+
+  body {
+    overflow-y: auto;
+  }
+
+  .page {
+    padding:
+      30px
+      20px
+      140px;
+  }
+
+  .main-area {
+    display:
+      flex;
+
+    flex-direction:
+      column;
+
+    gap:
+      35px;
+  }
+
+  .person {
+    width:
+      280px;
+  }
+
+  .chat-area {
+    width:
+      min(500px, 100%);
+
+    max-height:
+      none;
+
+    order:
+      3;
+  }
+
+  .person.left {
+    order:
+      1;
+  }
+
+  .person.right {
+    order:
+      2;
+  }
+
+  .office-button {
+    left:
+      15px;
+
+    bottom:
+      15px;
+
+    padding:
+      12px 18px;
+  }
+
+  .notes-button {
+    right:
+      15px;
+
+    bottom:
+      15px;
+
+    padding:
+      12px 18px;
+  }
+
+  .reset-button {
+    bottom:
+      62px;
+
+    padding:
+      11px 18px;
+  }
+
+  .classified {
+    display:
+      none;
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<main class="page">
+
+<div class="light"></div>
+
+<section class="main-area">
+
+<div class="person left">
+
+  <div class="image-box">
+
+    <img
+      src="fotos/Mr.Rodrigo.png"
+      alt="Mr. Rodrigo"
+      class="person-image"
+    >
+
+  </div>
+
+  <div class="name">
+    MR. RODRIGO
+  </div>
+
+  <div class="role">
+    Witness
+  </div>
+
+</div>
+
+<div
+  class="chat-area"
+  id="chatArea"
+></div>
+
+<div class="person right">
+
+  <div class="image-box">
+
+    <img
+      src="fotos/Me.png"
+      alt="Me"
+      class="person-image"
+    >
+
+  </div>
+
+  <div class="name">
+    ME
+  </div>
+
+  <div class="role">
+    Investigator
+  </div>
+
+</div>
+
+</section>
+
+<a
+  href="office.html"
+  class="office-button"
+>
+  Office
+</a>
+
+<button
+  id="resetButton"
+  class="reset-button"
+>
+  Reset Conversation
+</button>
+
+<a
+  href="mynotes.html"
+  class="notes-button"
+>
+  My Notes
+</a>
+
+<div class="classified">
+  AUTHORIZED PERSONNEL ONLY
+</div>
+
+</main>
+
+<script>
+
+const STORAGE_KEY =
+  "rodrigoConversation_v2";
+
+const COMPLETED_KEY =
+  "rodrigoCompleted_v2";
+
+const initialConversation = [
+
+  {
+    speaker:
+      "investigator",
+
+    text:
+      "Hello, Mr. Rodrigo. Thank you for coming. Please be aware that this conversation is being recorded for the official record."
+  }
+
+];
+
+const questions = [
+
+  {
+    id:
+      "q1",
+
+    text:
+      "What were you doing?",
+
+    answer:
+      "I was closing the shop."
+  },
+
+  {
+    id:
+      "q2",
+
+    text:
+      "What time was it?",
+
+    answer:
+      "A little after nine o'clock."
+  },
+
+  {
+    id:
+      "q3",
+
+    text:
+      "What did you see?",
+
+    answer:
+      "I saw two men near the metal structure.",
+
+    subQuestions: [
+
+      {
+        id:
+          "q3_1",
+
+        text:
+          "Did you see anything else?",
+
+        answer:
+          "No. After that, another person arrived and stayed on the other side of the street."
+      },
+
+      {
+        id:
+          "q3_2",
+
+        text:
+          "Can you describe the people you saw?",
+
+        answer:
+          "One man was tall, and the other was wearing a dark coat. He was close to the metal structure."
+      }
+
+    ]
+  },
+
+  {
+    id:
+      "q4",
+
+    text:
+      "What did you hear?",
+
+    answer:
+      "I heard people arguing.",
+
+    subQuestions: [
+
+      {
+        id:
+          "q4_1",
+
+        text:
+          "Did you understand what they were arguing about?",
+
+        answer:
+          "No."
+      },
+
+      {
+        id:
+          "q4_2",
+
+        text:
+          "How intense was the argument?",
+
+        answer:
+          "Very intense. They were speaking very quickly."
+      }
+
+    ]
+  }
+
+];
+
+function loadConversation() {
+
+  const saved =
+    localStorage.getItem(
+      STORAGE_KEY
+    );
+
+  if (!saved) {
+
+    return [
+      ...initialConversation
+    ];
+
+  }
+
+  try {
+
+    return JSON.parse(
+      saved
+    );
+
+  }
+
+  catch {
+
+    return [
+      ...initialConversation
+    ];
+
+  }
+
+}
+
+function saveConversation(
+  conversation
+) {
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(
+      conversation
+    )
+  );
+
+}
+
+function loadCompleted() {
+
+  const saved =
+    localStorage.getItem(
+      COMPLETED_KEY
+    );
+
+  if (!saved) {
+
+    return [];
+
+  }
+
+  try {
+
+    return JSON.parse(
+      saved
+    );
+
+  }
+
+  catch {
+
+    return [];
+
+  }
+
+}
+
+function saveCompleted(
+  completed
+) {
+
+  localStorage.setItem(
+    COMPLETED_KEY,
+    JSON.stringify(
+      completed
+    )
+  );
+
+}
+
+function addMessage(
+  speaker,
+  text
+) {
+
+  const conversation =
+    loadConversation();
+
+  conversation.push({
+
+    speaker:
+      speaker,
+
+    text:
+      text
+
+  });
+
+  saveConversation(
+    conversation
+  );
+
+}
+
+function createChatBox(
+  speaker,
+  text
+) {
+
+  const box =
+    document.createElement(
+      "div"
+    );
+
+  box.className =
+    "chat-box " +
+    speaker;
+
+  const name =
+    speaker ===
+    "investigator"
+
+      ? "Investigator"
+
+      : "Mr. Rodrigo";
+
+  const nameElement =
+    document.createElement(
+      "div"
+    );
+
+  nameElement.className =
+    "chat-name";
+
+  nameElement.textContent =
+    name;
+
+  const textElement =
+    document.createElement(
+      "div"
+    );
+
+  textElement.className =
+    "chat-text";
+
+  textElement.textContent =
+    text;
+
+  box.appendChild(
+    nameElement
+  );
+
+  box.appendChild(
+    textElement
+  );
+
+  return box;
+
+}
+
+function createQuestionButton(
+  question,
+  sub
+) {
+
+  const button =
+    document.createElement(
+      "button"
+    );
+
+  button.type =
+    "button";
+
+  button.className =
+    "question-button";
+
+  if (sub) {
+
+    button.classList.add(
+      "sub-question"
+    );
+
+  }
+
+  button.textContent =
+    question.text;
+
+  button.onclick =
+    function() {
+
+      answerQuestion(
+        question
+      );
+
+    };
+
+  return button;
+
+}
+
+function answerQuestion(
+  question
+) {
+
+  const completed =
+    loadCompleted();
+
+  if (
+    completed.includes(
+      question.id
+    )
+  ) {
+
+    return;
+
+  }
+
+  addMessage(
+    "investigator",
+    question.text
+  );
+
+  addMessage(
+    "rodrigo",
+    question.answer
+  );
+
+  completed.push(
+    question.id
+  );
+
+  saveCompleted(
+    completed
+  );
+
+  displayConversation();
+
+}
+
+function allQuestionsComplete() {
+
+  const completed =
+    loadCompleted();
+
+  for (
+    const question
+    of questions
+  ) {
+
+    if (
+      !completed.includes(
+        question.id
+      )
+    ) {
+
+      return false;
+
+    }
+
+    if (
+      question.subQuestions
+    ) {
+
+      for (
+        const sub
+        of question.subQuestions
+      ) {
+
+        if (
+          !completed.includes(
+            sub.id
+          )
+        ) {
+
+          return false;
+
+        }
+
+      }
+
+    }
+
+  }
+
+  return true;
+
+}
+
+function showQuestions(
+  chatArea
+) {
+
+  const completed =
+    loadCompleted();
+
+  questions.forEach(
+    function(question) {
+
+      if (
+        !completed.includes(
+          question.id
+        )
+      ) {
+
+        chatArea.appendChild(
+          createQuestionButton(
+            question,
+            false
+          )
+        );
+
+        return;
+
+      }
+
+      if (
+        question.subQuestions
+      ) {
+
+        question.subQuestions.forEach(
+          function(sub) {
+
+            if (
+              !completed.includes(
+                sub.id
+              )
+            ) {
+
+              chatArea.appendChild(
+                createQuestionButton(
+                  sub,
+                  true
+                )
+              );
+
+            }
+
+          }
+        );
+
+      }
+
+    }
+  );
+
+  if (
+    allQuestionsComplete()
+  ) {
+
+    showFinalQuestion(
+      chatArea
+    );
+
+  }
+
+}
+
+function showFinalQuestion(
+  chatArea
+) {
+
+  const completed =
+    loadCompleted();
+
+  if (
+    completed.includes(
+      "final"
+    )
+  ) {
+
+    return;
+
+  }
+
+  const button =
+    document.createElement(
+      "button"
+    );
+
+  button.type =
+    "button";
+
+  button.className =
+    "question-button";
+
+  button.textContent =
+    "Are you sure that's all?";
+
+  button.onclick =
+    answerFinalQuestion;
+
+  chatArea.appendChild(
+    button
+  );
+
+}
+
+function answerFinalQuestion() {
+
+  const completed =
+    loadCompleted();
+
+  if (
+    completed.includes(
+      "final"
+    )
+  ) {
+
+    return;
+
+  }
+
+  addMessage(
+    "investigator",
+    "Are you sure that's all?"
+  );
+
+  addMessage(
+    "rodrigo",
+    "I remember now that someone said, You shouldn’t have returned."
+  );
+
+  completed.push(
+    "final"
+  );
+
+  saveCompleted(
+    completed
+  );
+
+  displayConversation();
+
+}
+
+function displayConversation() {
+
+  const chatArea =
+    document.getElementById(
+      "chatArea"
+    );
+
+  chatArea.innerHTML =
+    "";
+
+  const conversation =
+    loadConversation();
+
+  conversation.forEach(
+    function(message) {
+
+      chatArea.appendChild(
+        createChatBox(
+          message.speaker,
+          message.text
+        )
+      );
+
+    }
+  );
+
+  if (
+    conversation.length === 1
+  ) {
+
+    const next =
+      document.createElement(
+        "button"
+      );
+
+    next.type =
+      "button";
+
+    next.className =
+      "next-button";
+
+    next.textContent =
+      "Next";
+
+    next.onclick =
+      function() {
+
+        addMessage(
+          "rodrigo",
+          "No problem. What questions do you have?"
+        );
+
+        displayConversation();
+
+      };
+
+    chatArea.appendChild(
+      next
+    );
+
+  }
+
+  else {
+
+    const completed =
+      loadCompleted();
+
+    if (
+      !completed.includes(
+        "final"
+      )
+    ) {
+
+      showQuestions(
+        chatArea
+      );
+
+    }
+
+  }
+
+  setTimeout(
+    function() {
+
+      chatArea.scrollTop =
+        chatArea.scrollHeight;
+
+    },
+    50
+  );
+
+}
+
+document
+  .getElementById(
+    "resetButton"
+  )
+  .onclick =
+  function() {
+
+    const confirmed =
+      confirm(
+        "Are you sure you want to restart the conversation?"
+      );
+
+    if (!confirmed) {
+
+      return;
+
+    }
+
+    localStorage.removeItem(
+      STORAGE_KEY
+    );
+
+    localStorage.removeItem(
+      COMPLETED_KEY
+    );
+
+    displayConversation();
+
+  };
+
+displayConversation();
+
+</script>
+
+</body>
+
+</html>

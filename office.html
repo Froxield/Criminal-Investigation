@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+  <title>Investigation Active — Classified</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background:
+        radial-gradient(
+          circle at 50% 20%,
+          #202020 0%,
+          #101010 45%,
+          #050505 100%
+        );
+
+      color: white;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      overflow-x: hidden;
+    }
+
+    .page {
+      min-height: 100vh;
+
+      position: relative;
+
+      padding: 45px 20px 100px;
+
+      display: flex;
+
+      justify-content: center;
+    }
+
+    .light {
+      position: fixed;
+
+      width: 750px;
+      height: 750px;
+
+      top: -300px;
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      background:
+        radial-gradient(
+          ellipse,
+          rgba(255,255,255,0.06) 0%,
+          rgba(255,255,255,0.02) 35%,
+          transparent 70%
+        );
+
+      pointer-events: none;
+    }
+
+    .content {
+      position: relative;
+
+      z-index: 2;
+
+      width: min(1200px, 100%);
+    }
+
+    /* =========================
+       HEADER
+    ========================= */
+
+    .header {
+      text-align: center;
+      margin-bottom: 45px;
+    }
+
+    .status {
+      display: inline-flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      color: #e12525;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+
+      background: #e12525;
+
+      border-radius: 50%;
+
+      box-shadow:
+        0 0 12px rgba(225,37,37,.8);
+
+      animation:
+        pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+
+      0% {
+        opacity: 1;
+
+        box-shadow:
+          0 0 12px rgba(225,37,37,.8);
+      }
+
+      50% {
+        opacity: .4;
+
+        box-shadow:
+          0 0 4px rgba(225,37,37,.3);
+      }
+
+      100% {
+        opacity: 1;
+
+        box-shadow:
+          0 0 12px rgba(225,37,37,.8);
+      }
+
+    }
+
+    h1 {
+      margin-top: 18px;
+
+      font-size:
+        clamp(38px, 7vw, 65px);
+
+      line-height: 1;
+
+      letter-spacing: -2px;
+
+      font-weight: 700;
+    }
+
+    h1 span {
+      color: #e12525;
+    }
+
+    .subtitle {
+      margin-top: 18px;
+
+      color: #777;
+
+      font-size: 12px;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+    }
+
+    /* =========================
+       DIVIDER
+    ========================= */
+
+    .divider {
+      width: 100%;
+
+      height: 1px;
+
+      margin:
+        35px 0 45px;
+
+      background:
+        linear-gradient(
+          to right,
+          transparent,
+          #b71919,
+          #444,
+          transparent
+        );
+    }
+
+    /* =========================
+       MAIN GRID
+    ========================= */
+
+    .main-sections {
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        1px
+        1fr;
+
+      grid-template-rows:
+        auto auto auto;
+
+      gap:
+        35px 30px;
+
+      align-items: start;
+    }
+
+    /* =========================
+       WHITE DIVISION
+    ========================= */
+
+    .section-divider {
+      width: 1px;
+
+      min-height: 100%;
+
+      background:
+        rgba(255,255,255,0.8);
+
+      grid-column: 2;
+
+      grid-row:
+        1 / span 3;
+    }
+
+    /* =========================
+       SECTION
+    ========================= */
+
+    .section-number {
+      color: #555;
+
+      font-size: 11px;
+
+      letter-spacing: 4px;
+
+      margin-bottom: 10px;
+
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      color: #a9a9a9;
+
+      font-size: 11px;
+
+      letter-spacing: 5px;
+
+      text-transform: uppercase;
+
+      margin-bottom: 20px;
+    }
+
+    /* =========================
+       ACTIVE CASE
+    ========================= */
+
+    .case-section {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .case-card {
+      position: relative;
+
+      background:
+        rgba(12,12,12,.95);
+
+      border:
+        1px solid #292929;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.6);
+
+      overflow: hidden;
+    }
+
+    .case-card::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      width: 3px;
+
+      background: #b71919;
+    }
+
+    .info-row {
+      min-height: 82px;
+
+      display: grid;
+
+      grid-template-columns:
+        42%
+        58%;
+
+      align-items: center;
+
+      padding:
+        0 25px;
+
+      border-bottom:
+        1px solid #252525;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      color: #777;
+
+      font-size: 10px;
+
+      font-weight: 700;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+    }
+
+    .value {
+      color: #ddd;
+
+      font-size: 15px;
+
+      font-weight: 500;
+    }
+
+    .group-name {
+      color: white;
+
+      font-size: 18px;
+
+      font-weight: 700;
+    }
+
+    .unknown {
+      color: #666;
+
+      font-style: italic;
+    }
+
+    .high {
+      display: inline-block;
+
+      padding:
+        7px 12px;
+
+      color: #ff3333;
+
+      background:
+        rgba(183,25,25,.12);
+
+      border:
+        1px solid #8f2020;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 3px;
+    }
+
+    /* =========================
+       WITNESSES
+    ========================= */
+
+    .witnesses-section {
+      grid-column: 3;
+      grid-row: 1;
+
+      min-width: 0;
+    }
+
+    .witness-header {
+      margin-bottom: 25px;
+    }
+
+    .witness-title {
+      color: white;
+
+      font-size:
+        clamp(27px, 4vw, 38px);
+
+      line-height: 1.1;
+
+      font-weight: 700;
+
+      letter-spacing: -1px;
+    }
+
+    .witness-subtitle {
+      margin-top: 12px;
+
+      color: #777;
+
+      font-size: 14px;
+
+      line-height: 1.6;
+    }
+
+    .witness-list {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 12px;
+    }
+
+    .witness-button {
+      position: relative;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      min-height: 90px;
+
+      padding:
+        18px
+        18px
+        18px
+        20px;
+
+      background:
+        rgba(12,12,12,.95);
+
+      border:
+        1px solid #303030;
+
+      color: white;
+
+      text-decoration: none;
+
+      transition:
+        background .25s ease,
+        border-color .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+
+      overflow: hidden;
+    }
+
+    .witness-button::before {
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      top: 0;
+      bottom: 0;
+
+      width: 3px;
+
+      background: #b71919;
+    }
+
+    .witness-button:hover {
+      background: #181818;
+
+      border-color: #555;
+
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+    }
+
+    .witness-info {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 7px;
+    }
+
+    .witness-number {
+      color: #666;
+
+      font-size: 9px;
+
+      letter-spacing: 3px;
+
+      font-weight: 700;
+    }
+
+    .witness-name {
+      color: #eee;
+
+      font-size: 13px;
+
+      font-weight: 700;
+
+      letter-spacing: 1.5px;
+    }
+
+    .witness-arrow {
+      color: #b71919;
+
+      font-size: 22px;
+
+      transition:
+        transform .25s ease;
+    }
+
+    .witness-button:hover
+    .witness-arrow {
+      transform:
+        translateX(5px);
+
+      color: #e12525;
+    }
+
+    /* =========================
+       NOTES
+    ========================= */
+
+    .notes-section {
+      grid-column: 1;
+      grid-row: 2;
+
+      margin-top: 0;
+    }
+
+    .notes-card {
+      position: relative;
+
+      background:
+        rgba(12,12,12,.95);
+
+      border:
+        1px solid #292929;
+
+      padding: 25px;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.5);
+
+      overflow: hidden;
+    }
+
+    .notes-card::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      width: 3px;
+
+      background: #b71919;
+    }
+
+    .notes-text {
+      color: #777;
+
+      font-size: 14px;
+
+      line-height: 1.7;
+
+      margin-bottom: 20px;
+    }
+
+    .notes-button {
+      display: inline-block;
+
+      padding:
+        15px 28px;
+
+      background: #b71919;
+
+      border:
+        1px solid #e02b2b;
+
+      color: white;
+
+      text-decoration: none;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      letter-spacing: 3px;
+
+      text-transform: uppercase;
+
+      transition:
+        background .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+    }
+
+    .notes-button:hover {
+      background: #d02121;
+
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 30px
+        rgba(183,25,25,.3);
+    }
+
+    /* =========================
+       DOCUMENTS
+    ========================= */
+
+    .documents-section {
+      grid-column: 3;
+      grid-row: 2;
+
+      min-width: 0;
+    }
+
+    .documents-header {
+      margin-bottom: 25px;
+    }
+
+    .documents-title {
+      color: white;
+
+      font-size:
+        clamp(27px, 4vw, 38px);
+
+      line-height: 1.1;
+
+      font-weight: 700;
+
+      letter-spacing: -1px;
+    }
+
+    .documents-subtitle {
+      margin-top: 12px;
+
+      color: #777;
+
+      font-size: 14px;
+
+      line-height: 1.6;
+    }
+
+    .documents-list {
+      display: flex;
+
+      flex-direction: column;
+
+      gap: 10px;
+    }
+
+    .document-button {
+      position: relative;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      min-height: 65px;
+
+      padding:
+        15px
+        18px
+        15px
+        20px;
+
+      background:
+        rgba(12,12,12,.95);
+
+      border:
+        1px solid #303030;
+
+      color: white;
+
+      text-decoration: none;
+
+      transition:
+        background .25s ease,
+        border-color .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+
+      overflow: hidden;
+    }
+
+    .document-button::before {
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      top: 0;
+      bottom: 0;
+
+      width: 3px;
+
+      background: #b71919;
+    }
+
+    .document-button:hover {
+      background: #181818;
+
+      border-color: #555;
+
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+    }
+
+    .document-name {
+      color: #eee;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      letter-spacing: 1.5px;
+
+      text-transform: uppercase;
+    }
+
+    .document-arrow {
+      color: #b71919;
+
+      font-size: 20px;
+
+      transition:
+        transform .25s ease;
+    }
+
+    .document-button:hover
+    .document-arrow {
+      transform:
+        translateX(5px);
+
+      color: #e12525;
+    }
+
+    /* =========================
+       05 / AREAS
+    ========================= */
+
+    .areas-section {
+      grid-column:
+        1 / span 3;
+
+      grid-row: 3;
+
+      margin-top: 0;
+
+      min-width: 0;
+    }
+
+    .areas-card {
+      position: relative;
+
+      background:
+        rgba(12,12,12,.95);
+
+      border:
+        1px solid #292929;
+
+      padding: 12px;
+
+      box-shadow:
+        0 20px 60px rgba(0,0,0,.5);
+
+      overflow: hidden;
+    }
+
+    .areas-card::before {
+      content: "";
+
+      position: absolute;
+
+      top: 0;
+      left: 0;
+      bottom: 0;
+
+      width: 3px;
+
+      background: #b71919;
+    }
+
+    .area-button {
+      position: relative;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      min-height: 70px;
+
+      padding:
+        15px
+        18px
+        15px
+        20px;
+
+      background:
+        rgba(12,12,12,.95);
+
+      border:
+        1px solid #303030;
+
+      color: white;
+
+      text-decoration: none;
+
+      transition:
+        background .25s ease,
+        border-color .25s ease,
+        transform .25s ease,
+        box-shadow .25s ease;
+
+      overflow: hidden;
+    }
+
+    .area-button::before {
+      content: "";
+
+      position: absolute;
+
+      left: 0;
+      top: 0;
+      bottom: 0;
+
+      width: 3px;
+
+      background: #b71919;
+    }
+
+    .area-button:hover {
+      background: #181818;
+
+      border-color: #555;
+
+      transform:
+        translateY(-3px);
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.5);
+    }
+
+    .area-name {
+      color: #eee;
+
+      font-size: 12px;
+
+      font-weight: 700;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+    }
+
+    .area-arrow {
+      color: #b71919;
+
+      font-size: 20px;
+
+      transition:
+        transform .25s ease;
+    }
+
+    .area-button:hover
+    .area-arrow {
+      transform:
+        translateX(5px);
+
+      color: #e12525;
+    }
+
+    /* =========================
+       WARNING
+    ========================= */
+
+    .warning {
+      margin-top: 30px;
+
+      padding:
+        18px 20px;
+
+      background:
+        rgba(10,10,10,.7);
+
+      border:
+        1px solid #292929;
+
+      color: #666;
+
+      font-size: 11px;
+
+      line-height: 1.7;
+    }
+
+    .warning strong {
+      color: #b71919;
+
+      letter-spacing: 2px;
+    }
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .classified {
+      position: fixed;
+
+      z-index: 5;
+
+      bottom: 18px;
+
+      left: 50%;
+
+      transform:
+        translateX(-50%);
+
+      color: #555;
+
+      font-size: 10px;
+
+      letter-spacing: 3px;
+
+      white-space: nowrap;
+    }
+
+    /* =========================
+       TABLET
+    ========================= */
+
+    @media (max-width: 850px) {
+
+      .main-sections {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+      }
+
+      .section-divider {
+        display: none;
+      }
+
+      .case-section,
+      .witnesses-section,
+      .notes-section,
+      .documents-section,
+      .areas-section {
+        grid-column: 1;
+        grid-row: auto;
+      }
+
+      .witnesses-section,
+      .notes-section,
+      .documents-section,
+      .areas-section {
+        margin-top: 20px;
+      }
+
+    }
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 600px) {
+
+      .page {
+        padding:
+          30px
+          15px
+          80px;
+      }
+
+      .info-row {
+        grid-template-columns: 1fr;
+
+        gap: 8px;
+
+        padding:
+          20px 25px;
+
+        min-height: 100px;
+      }
+
+      .label {
+        font-size: 9px;
+      }
+
+      .value {
+        font-size: 15px;
+      }
+
+      .group-name {
+        font-size: 19px;
+      }
+
+      .witness-list {
+        grid-template-columns: 1fr;
+      }
+
+      .classified {
+        font-size: 8px;
+        letter-spacing: 2px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <main class="page">
+
+```
+<div class="light"></div>
+
+<section class="content">
+
+  <!-- HEADER -->
+
+  <header class="header">
+
+    <div class="status">
+
+      <span class="status-dot"></span>
+
+      Investigation Active
+
+    </div>
+
+    <h1>
+
+      INVESTIGATION
+      <span>ACTIVE</span>
+
+    </h1>
+
+    <div class="subtitle">
+
+      Classified Criminal Investigation
+
+    </div>
+
+  </header>
+
+  <div class="divider"></div>
+
+  <!-- MAIN GRID -->
+
+  <div class="main-sections">
+
+    <!-- 01 / ACTIVE CASE -->
+
+    <section class="case-section">
+
+      <div class="section-number">
+        01 / Active Case
+      </div>
+
+      <div class="section-title">
+        Known Information
+      </div>
+
+      <div class="case-card">
+
+        <div class="info-row">
+
+          <div class="label">
+            Name
+          </div>
+
+          <div class="value group-name">
+            The Silence Circle
+          </div>
+
+        </div>
+
+        <div class="info-row">
+
+          <div class="label">
+            Number of Criminals
+          </div>
+
+          <div class="value unknown">
+            Unknown
+          </div>
+
+        </div>
+
+        <div class="info-row">
+
+          <div class="label">
+            Base
+          </div>
+
+          <div class="value unknown">
+            Unknown
+          </div>
+
+        </div>
+
+        <div class="info-row">
+
+          <div class="label">
+            Threat Level
+          </div>
+
+          <div class="value">
+
+            <span class="high">
+              HIGH
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="info-row">
+
+          <div class="label">
+            Report Location
+          </div>
+
+          <div class="value">
+            Metro
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- DIVIDER -->
+
+    <div class="section-divider"></div>
+
+    <!-- 02 / WITNESSES -->
+
+    <section class="witnesses-section">
+
+      <div class="section-number">
+        02 / Witnesses
+      </div>
+
+      <div class="witness-header">
+
+        <h2 class="witness-title">
+          INVESTIGATION ROOM
+        </h2>
+
+        <p class="witness-subtitle">
+          Ask the witnesses about what they see.
+        </p>
+
+      </div>
+
+      <div class="witness-list">
+
+        <!-- MR. RODRIGO -->
+
+        <a
+          href="MR.Rodrigo.html"
+          class="witness-button"
+        >
+
+          <div class="witness-info">
+
+            <span class="witness-number">
+              WITNESS 1
+            </span>
+
+            <span class="witness-name">
+              MR. RODRIGO
+            </span>
+
+          </div>
+
+          <span class="witness-arrow">
+            →
+          </span>
+
+        </a>
+
+        <!-- MS. PIA -->
+
+        <a
+          href="#"
+          class="witness-button"
+        >
+
+          <div class="witness-info">
+
+            <span class="witness-number">
+              WITNESS 2
+            </span>
+
+            <span class="witness-name">
+              MS. PIA
+            </span>
+
+          </div>
+
+          <span class="witness-arrow">
+            →
+          </span>
+
+        </a>
+
+        <!-- MR. MATEO -->
+
+        <a
+          href="#"
+          class="witness-button"
+        >
+
+          <div class="witness-info">
+
+            <span class="witness-number">
+              WITNESS 3
+            </span>
+
+            <span class="witness-name">
+              MR. MATEO
+            </span>
+
+          </div>
+
+          <span class="witness-arrow">
+            →
+          </span>
+
+        </a>
+
+        <!-- MS. HELENA -->
+
+        <a
+          href="#"
+          class="witness-button"
+        >
+
+          <div class="witness-info">
+
+            <span class="witness-number">
+              WITNESS 4
+            </span>
+
+            <span class="witness-name">
+              MS. HELENA
+            </span>
+
+          </div>
+
+          <span class="witness-arrow">
+            →
+          </span>
+
+        </a>
+
+      </div>
+
+      <div class="warning">
+
+        <strong>WARNING:</strong>
+
+        Witness statements may contain sensitive
+        information. Verify all information before
+        adding it to the case file.
+
+      </div>
+
+    </section>
+
+    <!-- 03 / NOTES -->
+
+    <section class="notes-section">
+
+      <div class="section-number">
+        03 / Notes
+      </div>
+
+      <div class="section-title">
+        Investigation Notes
+      </div>
+
+      <div class="notes-card">
+
+        <p class="notes-text">
+
+          Keep track of important information
+          discovered during the investigation.
+
+        </p>
+
+        <a
+          href="mynotes.html"
+          class="notes-button"
+        >
+          My Notes
+        </a>
+
+      </div>
+
+    </section>
+
+    <!-- 04 / DOCUMENTS -->
+
+    <section class="documents-section">
+
+      <div class="section-number">
+        04 / Documents
+      </div>
+
+      <div class="documents-header">
+
+        <h2 class="documents-title">
+          DOCUMENT ROOMS
+        </h2>
+
+        <p class="documents-subtitle">
+
+          Here you can choose which section you want
+          to work in and view its documents.
+
+        </p>
+
+      </div>
+
+      <div class="documents-list">
+
+        <!-- EVIDENCE ROOM -->
+
+        <a
+          href="evidence-room.html"
+          class="document-button"
+        >
+
+          <span class="document-name">
+            Evidence Room
+          </span>
+
+          <span class="document-arrow">
+            →
+          </span>
+
+        </a>
+
+        <!-- FORENSICS LAB -->
+
+        <a
+          href="#"
+          class="document-button"
+        >
+
+          <span class="document-name">
+            Forensics Lab
+          </span>
+
+          <span class="document-arrow">
+            →
+          </span>
+
+        </a>
+
+        <!-- CYBER LAB -->
+
+        <a
+          href="#"
+          class="document-button"
+        >
+
+          <span class="document-name">
+            Cyber Lab
+          </span>
+
+          <span class="document-arrow">
+            →
+          </span>
+
+        </a>
+
+      </div>
+
+    </section>
+
+    <!-- 05 / AREAS -->
+
+    <section class="areas-section">
+
+      <div class="section-number">
+        05 / Areas
+      </div>
+
+      <div class="section-title">
+        Investigation Areas
+      </div>
+
+      <div class="areas-card">
+
+        <a
+          href="cena1.html"
+          class="area-button"
+        >
+
+          <span class="area-name">
+            Crime Scene
+          </span>
+
+          <span class="area-arrow">
+            →
+          </span>
+
+        </a>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+
+<div class="classified">
+
+  AUTHORIZED PERSONNEL ONLY
+  •
+  CASE CC-001
+
+</div>
+```
+
+  </main>
+
+</body>
+
+</html>

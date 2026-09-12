@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evidence Room</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html,
+    body {
+      min-height: 100%;
+      background: #050505;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      padding: 50px 30px 110px;
+    }
+
+    .header {
+      width: min(1100px, 100%);
+      margin: 0 auto 40px;
+    }
+
+    .case-number {
+      color: #555;
+      font-size: 10px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+
+    h1 {
+      font-size: 42px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      margin-top: 10px;
+      color: #777;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .line {
+      width: 100%;
+      height: 1px;
+      margin-top: 25px;
+
+      background:
+        linear-gradient(
+          to right,
+          #b71919,
+          #444,
+          transparent
+        );
+    }
+
+    .evidence-container {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+    }
+
+    .evidence-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .evidence-card {
+      min-height: 150px;
+      padding: 25px;
+
+      background: #0d0d0d;
+
+      border: 1px solid #292929;
+      border-left: 3px solid #b71919;
+
+      box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.45);
+
+      transition:
+        transform 0.25s ease,
+        border-color 0.25s ease;
+    }
+
+    .evidence-card:hover {
+      transform: translateY(-4px);
+
+      border-color: #555;
+      border-left-color: #e12525;
+    }
+
+    .evidence-number {
+      color: #b71919;
+
+      font-size: 10px;
+      font-weight: 700;
+
+      letter-spacing: 3px;
+
+      margin-bottom: 15px;
+    }
+
+    .evidence-name {
+      color: white;
+
+      font-size: 15px;
+      font-weight: 700;
+
+      line-height: 1.4;
+
+      text-transform: uppercase;
+    }
+
+    .empty-message {
+      padding: 50px;
+
+      text-align: center;
+
+      color: #666;
+
+      border: 1px solid #292929;
+
+      background: #0b0b0b;
+
+      letter-spacing: 2px;
+
+      font-size: 11px;
+
+      text-transform: uppercase;
+    }
+
+
+    /* =========================
+       BUTTONS
+    ========================= */
+
+    .navigation-button {
+      position: fixed;
+
+      bottom: 25px;
+
+      z-index: 50;
+
+      padding: 15px 25px;
+
+      background: #b71919;
+
+      border: 1px solid #e02b2b;
+
+      color: white;
+
+      text-decoration: none;
+
+      font-size: 11px;
+
+      font-weight: 700;
+
+      letter-spacing: 2px;
+
+      text-transform: uppercase;
+
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .navigation-button:hover {
+      background: #d02121;
+
+      transform: translateY(-3px);
+
+      box-shadow:
+        0 10px 30px
+        rgba(183, 25, 25, 0.4);
+    }
+
+    .office-button {
+      right: 25px;
+    }
+
+    .notes-button {
+      left: 25px;
+    }
+
+
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .classified {
+      position: fixed;
+
+      bottom: 15px;
+
+      left: 50%;
+
+      transform: translateX(-50%);
+
+      color: #444;
+
+      font-size: 9px;
+
+      letter-spacing: 3px;
+
+      white-space: nowrap;
+    }
+
+
+    /* =========================
+       MOBILE
+    ========================= */
+
+    @media (max-width: 850px) {
+
+      .evidence-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+
+    @media (max-width: 500px) {
+
+      body {
+        padding: 30px 18px 100px;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      .evidence-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .navigation-button {
+        bottom: 15px;
+
+        padding: 13px 18px;
+      }
+
+      .office-button {
+        right: 15px;
+      }
+
+      .notes-button {
+        left: 15px;
+      }
+
+      .classified {
+        display: none;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+  <header class="header">
+
+<div class="case-number">
+  CASE FILE: CC-001
+</div>
+
+<h1>
+  Evidence Room
+</h1>
+
+<div class="subtitle">
+  Collected Evidence
+</div>
+
+<div class="line"></div>
+
+  </header>
+
+  <main class="evidence-container">
+
+<div
+  class="evidence-grid"
+  id="evidenceGrid"
+></div>
+
+  </main>
+
+  <!-- BACK TO OFFICE -->
+
+<a
+href="office.html"
+class="navigation-button office-button"
+
+>
+
+```
+Back to the Office
+```
+
+  </a>
+
+  <!-- MY NOTES -->
+
+<a
+href="mynotes.html"
+class="navigation-button notes-button"
+
+>
+
+```
+My Notes
+```
+
+  </a>
+
+  <div class="classified">
+    AUTHORIZED PERSONNEL ONLY • EVIDENCE ROOM
+  </div>
+
+  <script>
+
+    const EVIDENCE_KEY =
+      "collectedEvidence";
+
+
+    const evidenceGrid =
+      document.getElementById(
+        "evidenceGrid"
+      );
+
+
+    function loadEvidence() {
+
+      const saved =
+        localStorage.getItem(
+          EVIDENCE_KEY
+        );
+
+
+      if (!saved) {
+        return [];
+      }
+
+
+      try {
+
+        return JSON.parse(saved);
+
+      } catch {
+
+        return [];
+
+      }
+
+    }
+
+
+    function displayEvidence() {
+
+      const evidence =
+        loadEvidence();
+
+
+      evidenceGrid.innerHTML =
+        "";
+
+
+      if (evidence.length === 0) {
+
+        const empty =
+          document.createElement(
+            "div"
+          );
+
+        empty.className =
+          "empty-message";
+
+        empty.textContent =
+          "No evidence has been collected yet.";
+
+
+        evidenceGrid.appendChild(
+          empty
+        );
+
+        return;
+
+      }
+
+
+      evidence.forEach(
+        function(item, index) {
+
+          const card =
+            document.createElement(
+              "div"
+            );
+
+          card.className =
+            "evidence-card";
+
+
+          const number =
+            document.createElement(
+              "div"
+            );
+
+          number.className =
+            "evidence-number";
+
+          number.textContent =
+            "EVIDENCE " +
+            String(index + 1)
+              .padStart(3, "0");
+
+
+          const name =
+            document.createElement(
+              "div"
+            );
+
+          name.className =
+            "evidence-name";
+
+          name.textContent =
+            item;
+
+
+          card.appendChild(
+            number
+          );
+
+          card.appendChild(
+            name
+          );
+
+
+          evidenceGrid.appendChild(
+            card
+          );
+
+        }
+      );
+
+    }
+
+
+    displayEvidence();
+
+  </script>
+
+</body>
+
+</html>
